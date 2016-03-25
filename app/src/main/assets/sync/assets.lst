@@ -1,0 +1,12 @@
+dict/dict_model.jsgf
+dict/keywordDict
+dict/resultDictionary
+model/assets.lst
+model/feat.params
+model/mdef
+model/means
+model/mixture_weights
+model/noisedict
+model/sendump
+model/transition_matrices
+model/variances
