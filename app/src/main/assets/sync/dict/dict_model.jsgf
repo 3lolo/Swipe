@@ -1,3 +1,5 @@
 #JSGF V1.0;
 grammar test;
-public <test>   = (блин | вот | какбы | короче | кстати | ну | типа | тю | шо );
+<kak> = как | (бы | нибудь | его | это);
+<particle> = ну | ээ | уу | мм;
+public <test>   = ( [<particle>] блин | [<particle>] вот | kak | [<particle>] короче | кстати | ну | типа | тю | шо );
