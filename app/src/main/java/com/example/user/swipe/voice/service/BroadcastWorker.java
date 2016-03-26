@@ -8,5 +8,5 @@ import com.example.user.swipe.voice.data.VoiceInterface;
  */
 public interface BroadcastWorker {
 
-    void runCommand(VoiceInterface data);
+    void runCommand(String data);
 }

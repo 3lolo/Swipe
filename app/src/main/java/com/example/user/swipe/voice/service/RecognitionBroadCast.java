@@ -19,8 +19,9 @@ public class RecognitionBroadCast extends BroadcastReceiver {
     }
     @Override
     public void onReceive(Context context, Intent intent) {
-        VoiceInterface voice = intent.getParcelableExtra("data");
-        broadcastInterface.runCommand(voice);
+        String string = intent.getStringExtra("data");
+        if(string!=null)
+        broadcastInterface.runCommand(string);
     }
 
 }

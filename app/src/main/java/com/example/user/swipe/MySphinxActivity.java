@@ -20,12 +20,13 @@ import com.example.user.swipe.voice.service.RecognitionBroadCast;
 import com.example.user.swipe.voice.service.RecognitionService;
 import com.example.user.swipe.voice.service.ServiceConstants;
 
+import java.util.Map;
+
 
 /**
  * Created by Grass on 21.02.2016.
  */
 public class MySphinxActivity extends Activity implements BroadcastWorker {
-
 
     private static final int PERMISSION_RECOD = 21;
 
@@ -34,15 +35,18 @@ public class MySphinxActivity extends Activity implements BroadcastWorker {
         super.onCreate(state);
         checkPirmission();
         setContentView(R.layout.main);
-        registerReceiver(new RecognitionBroadCast(this), new IntentFilter(ServiceConstants.VOICE_ACTION));
-
+        registerReceiver(new RecognitionBroadCast(this), new IntentFilter(ServiceConstants.WORD_ACTION));
     }
 
 
     @Override
-    public void runCommand(VoiceInterface data) {
+    public void runCommand(String data) {
         Log.d("recod", "run Command");
-        Log.d("recod", data.toString());
+        Log.d("recod", data);
+    }
+
+    public void countWords(String str){
+
     }
 
 
