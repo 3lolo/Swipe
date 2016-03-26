@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Swipe</string>
+    <string name="title_activity_add__list">Add_List</string>
+    <string name="title_activity_activity_list">ActivityList</string>
+    <string name="title_activity_activity__add">Activity_Add</string>
+    <string name="title_activity_recycler_view">RecyclerView</string>
+    <string name="username">\"\"</string>
+    <string name="signin">\"\"</string>
+    <string name="cancel">\"\"</string>
 </resources>
