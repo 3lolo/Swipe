@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.user.swipe.MySphinxActivity;
 import com.example.user.swipe.R;
@@ -62,6 +63,8 @@ RecognitionService extends Service implements RecognitionListener,
     private Set<String> dataName = new HashSet<>();
     private Set<String> dataValue = new HashSet<>();
 
+    private ArrayList<String> vocab;
+
 
     @Override
     public void onCreate() {
@@ -76,6 +79,7 @@ RecognitionService extends Service implements RecognitionListener,
         } catch (IOException e) {
             e.printStackTrace();
         }
+        vocab = new ArrayList<>();
 
         new AsyncTask<Void, Void, Exception>() {
             @Override
@@ -112,7 +116,7 @@ RecognitionService extends Service implements RecognitionListener,
                     .setAcousticModel(new File(assetsDir, "model"))
                     .setDictionary(new File(assetsDir, "dict/resultDictionary"))
                     .setRawLogDir(assetsDir)
-                    .setKeywordThreshold(1e-20f)
+                    .setKeywordThreshold(1e-10f)
                     .getRecognizer();
 
             recognizer.addListener(this);
@@ -206,12 +210,67 @@ RecognitionService extends Service implements RecognitionListener,
     }
 
     private void sendIntent(String key, String data ){
-        Intent intent = new Intent();
-        intent.setAction(ServiceConstants.WORD_ACTION);
-        intent.putExtra(key, data);
-        sendBroadcast(intent);
+        writeSp(data);
         notify_user();
     }
+
+    private void initData(){
+        vocab.add("блин");
+        vocab.add("бы");
+        vocab.add("вот");
+        vocab.add("его");
+        vocab.add("как");
+        vocab.add("блин");
+        vocab.add("короче");
+        vocab.add("кстати");
+        vocab.add("нибудь");
+        vocab.add("ну");
+        vocab.add("типа");
+        vocab.add("тю");
+        vocab.add("шо");
+        vocab.add("это");
+        vocab.add("ээ");
+        vocab.add("уу");
+        vocab.add("мм");
+
+        SharedPreferences.Editor editor = sp.edit();
+
+        for(String str : vocab){
+            editor.putInt(str,0);
+            editor.commit();
+        }
+
+
+        vocab.add("блин");
+        vocab.add("бы");
+        vocab.add("вот");
+        vocab.add("его");
+        vocab.add("как");
+        vocab.add("блин");
+        vocab.add("короче");
+        vocab.add("кстати");
+        vocab.add("нибудь");
+        vocab.add("ну");
+        vocab.add("типа");
+        vocab.add("тю");
+        vocab.add("шо");
+        vocab.add("это");
+        vocab.add("ээ");
+        vocab.add("уу");
+        vocab.add("мм");
+
+    }
+
+
+    public void writeSp(String st){
+        int count = 0;
+        count = sp.getInt(st,count);
+        Toast.makeText(this, "Text loaded", Toast.LENGTH_SHORT).show();
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(st,++count);
+        editor.commit();
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void notify_user(){
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -224,13 +283,14 @@ RecognitionService extends Service implements RecognitionListener,
 
         Resources res = context.getResources();
         Notification.Builder builder = new Notification.Builder(context);
-        builder.setContentIntent(contentIntent).setContentText("fuck")
-                                               .setSmallIcon(R.mipmap.ic_launcher)
-        .setDefaults(Notification.DEFAULT_VIBRATE);
+        builder.setContentIntent(contentIntent).setDefaults(Notification.DEFAULT_VIBRATE)
+                .setContentText("fuck")
+                .setSmallIcon(R.mipmap.ic_launcher);
+
         Notification notification = builder.build();
         notificationManager.notify(ServiceConstants.NOTIFY_ID,notification);
         CloseNotify close = new CloseNotify();
-        //close.execute(notificationManager);
+        close.execute(notificationManager);
 
     }
 
@@ -240,7 +300,7 @@ RecognitionService extends Service implements RecognitionListener,
         protected Void doInBackground(NotificationManager... params) {
             manager = params[0];
             try {
-                new Thread().sleep(5000);
+                new Thread().sleep(4000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -250,6 +310,7 @@ RecognitionService extends Service implements RecognitionListener,
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            Log.d("recod","stop");
             manager.cancel(ServiceConstants.NOTIFY_ID);
         }
     }
